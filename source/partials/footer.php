@@ -1,7 +1,7 @@
-
+</main>
   <!-- Pied de page -->
   <footer>
-    <p>Ceci est un pied de page</p>
+    <p>TD PDO 01 — Sakila · LA MANU / NOVEI Formation</p>
   </footer>
 </body>
 </html>

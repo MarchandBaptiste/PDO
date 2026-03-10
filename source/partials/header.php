@@ -25,7 +25,7 @@ if (!defined('BASE_URL')) {
 <body>
   <!-- En-tête du site -->
   <header>
-    <h1>Ceci est un TD qui parle de films et d'acteurs</h1>
+    <h1>Sakila Database App</h1>
     <nav>
       <ul>
         <li><a href="/">Accueil</a></li>
@@ -37,3 +37,4 @@ if (!defined('BASE_URL')) {
       </ul>
     </nav>
   </header>
+  <main>
