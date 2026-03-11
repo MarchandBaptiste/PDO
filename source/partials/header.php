@@ -33,7 +33,8 @@ if (!defined('BASE_URL')) {
         <li><a href="/source/pages/actorList.php">Liste des acteurs</a></li>
         <li><a href="/source/pages/magasinPlace.php">L'implantation des magasins</a></li>
         <li><a href="/source/pages/cateList.php">Liste de catégorie </a></li>
-        <li><a href="/source/pages/financarieData.php">Consultation des données financières </a></li>
+        <li><a href="/source/pages/financarieData.php">Consultation des données financières</a></li>
+        <li><a href="/source/pages/connexion.php">Connexion</a></li>
       </ul>
     </nav>
   </header>
