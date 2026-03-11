@@ -11,6 +11,7 @@
         Le site te permet de consulter le catalogue de films disponibles à la location, de parcourir la liste des acteurs et leur filmographie, de localiser les magasins avec leurs informations de contact, d'accéder aux données financières par boutique, et d'explorer les films par catégorie.
         Le développement a suivi le principe DRY (Don't Repeat Yourself) : connexion centralisée, includes réutilisables, et requêtes testées avant intégration.
     </p>
+    <p><span>chose a faire : </span>cooki pour mettre un mode sombre, regex pregmatch, filter validate, mot de passe solide</p>
     <?php if (isset($_SESSION['logged'])){ ?>
         <p>Bonjour <?= $_SESSION['logged']['username'] ?></p>
     <?php } ?>

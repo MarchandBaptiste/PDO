@@ -10,6 +10,12 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
   header('Location: /source/pages/home.php');
   exit();
 }
+// if (isset($_POST['reset'])) {
+
+//         setcookie("theme", '', time() -1, "/");
+//     } else {
+//         setcookie("theme", htmlspecialchars($_POST['color']), time() + (24 * 3600), "/");
+//     }
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +33,7 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
   <meta name="description" content="Description du site" />
 </head>
 
-<body>
+<body class="<?= $_COOKIE['theme'] ?? $_POST['color'] ?? 'light' ?>">
   <!-- En-tête du site -->
   <header>
     <h1>Sakila Database</h1>
@@ -42,5 +48,11 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
         <li><a href="/source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>""><?= isset($_SESSION['logged']) ? 'Deconexion' : 'Connexion' ?></a></li>
       </ul>
     </nav>
+    <form action="" method="post">
+      <label class="switch">
+        <input type="checkbox" name="color">
+        <span class="slider round"></span>
+      </form>
+    </label>
   </header>
   <main>

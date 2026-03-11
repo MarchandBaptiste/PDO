@@ -2,7 +2,7 @@
 
 function setUser($db, $first_name, $last_name, $email, $username, $password)
 {
-    var_dump($first_name, $last_name, $email, $username, $password);
+    // var_dump($first_name, $last_name, $email, $username, $password);
     $sql = "INSERT INTO `staff` (`first_name`,`last_name`,`address_id`,`email`,`store_id`,`username`,`password`)
     VALUES (:first_name, :last_name,2, :email, 2, :username, :password)";
     $stmt = $db->prepare($sql);
@@ -12,8 +12,11 @@ function setUser($db, $first_name, $last_name, $email, $username, $password)
     $stmt->bindValue(':username', $username, PDO::PARAM_STR);
     $stmt->bindValue(':password', $password, PDO::PARAM_STR);
     $stmt->execute();
-    // verifier que le execute a bien été affecter avant de return true
-    return true;
+    if ($stmt->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 function getUser($db, $username, $password)
 {
@@ -25,10 +28,11 @@ function getUser($db, $username, $password)
     $stmt->execute();
     $user = $stmt->fetch();
     if (password_verify($password, $user['password']) === true) {
+        // renvoye un tableau pour utiliser les infos dans une session
         return array(
             "lastname" => $user['last_name'],
             "firstname" => $user['first_name'],
-            "username"=> $user['username']
+            "username" => $user['username']
         );
     } else {
         return false;

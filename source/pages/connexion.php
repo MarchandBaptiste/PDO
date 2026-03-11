@@ -1,6 +1,8 @@
 <?php include_once('../partials/header.php');
 include_once __DIR__ . '/../functions/user/user.php';
 $singIn = false;
+$setValidPasswor = false;
+// pour créé un compte
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = db();
     if (isset($_POST['signIn'])) {
@@ -17,35 +19,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // mettre un filter validate
         if (!$first_name || !$last_name || !$email || !$username || !$password) {
             // champ invalide ou manquant
-            die("Données manquantes");
+            die("Données manquantes ou invalides");
         }
+
         // faire des regex avec pregmatch
-        // crypte le mot de passe 
-        $password = password_hash($password, PASSWORD_BCRYPT);
-        $user = setUser($db, $first_name, $last_name, $email, $username, $password);
-        if ($user === true) {
-            $singIn = true;
+
+        // vérification de la solidité du mot de passe 
+        if ($setValidPasswor === false) {
+
+            if (strlen($password) < 8) {
+                $message = 'Le mot de passe est trop court, il doit comporter au moins 8 caractères';
+            } elseif (!preg_match('/[A-Z]/', $password)) {
+                $message = 'Le mot de passe doit comporter au moins une majuscule';
+            } elseif (!preg_match('/[a-z]/', $password)) {
+                $message = 'Le mot de passe doit comporter au moins une minuscule';
+            } elseif (!preg_match('/[1-9]/', $password)) {
+                $message = 'Le mot de passe doit comporter au moins un chiffre';
+            } else {
+                $setValidPasswor = true;
+            }
+        }
+        if ($setValidPasswor === true) {
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            $user = setUser($db, $first_name, $last_name, $email, $username, $password);
+            if ($user === true) {
+                $singIn = true;
+                $sentance = 'Vous êtes inscrit';
+            } else {
+                $singIn = false;
+                $sentance = 'L\'inscription a échouer';
+            }
         }
     }
+
+    // pour se connecter 
     if (isset($_POST['logIn'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
         $log = getUser($db, $username, $password);
         if ($log) {
-            $_SESSION['logged']= $log;
+            $_SESSION['logged'] = $log;
             header('Location: /');
         }
     }
 }
-
 ?>
 
-<p>faut faire en sorte que le mot de passe sois de 8caractère au minimum</p>
-<?php if ($singIn === true) { ?>
-    <p>Vous êtes bien inscrit</p>
-<?php } ?>
 <div class="divLog">
+    <!-- inscription -->
     <section class="log">
+        <?php if ($singIn === true) { ?>
+            <p><?= $sentance ?></p>
+        <?php } ?>
         <h3>Ici vous pouvez vous Inscrire</h3>
         <form action="" method="POST">
             <div>
@@ -54,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="first_name"
                     name="first_name"
+                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($first_name) : '' ?>"
                     required />
             </div>
             <div>
@@ -62,14 +88,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="last_name"
                     name="last_name"
-                    required />
+                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($last_name) : '' ?>"
+                    required 
             </div>
             <div>
-                <label for="email">Email : </label>
+                <label for=" email">Email : </label>
                 <input
                     type="email"
                     id="email"
                     name="email"
+                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($email) : '' ?>"
                     required />
             </div>
             <div>
@@ -78,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="username"
                     name="username"
+                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($username) : '' ?>"
                     required />
             </div>
             <div>
@@ -88,9 +117,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     name="password"
                     required />
             </div>
+            <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) && $setValidPasswor != true) { ?>
+                <p><?= $message ?></p>
+            <?php } ?>
             <button type="submit" name="signIn">S'inscrire</button>
         </form>
     </section>
+
+    <!-- connexion -->
     <section class="log">
         <?php if (isset($_SESSION["logged"])) { ?>
             <p>Vous êtes bien connecter</p>
@@ -103,6 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="username"
                     name="username"
+                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logIn']) ? htmlspecialchars($username) : '' ?>"
                     required />
             </div>
             <div>
