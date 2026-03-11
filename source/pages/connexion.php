@@ -1,9 +1,10 @@
 <?php include_once('../partials/header.php');
 include_once __DIR__ . '/../functions/user/user.php';
-$singIn = false;
-$setValidPasswor = false;
 // pour créé un compte
+$singIn = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $boolLogIn = false;
+    $setValidPasswor = false;
     $db = db();
     if (isset($_POST['signIn'])) {
         $first_name = $_POST['first_name'];
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // mettre un filter validate
         if (!$first_name || !$last_name || !$email || !$username || !$password) {
             // champ invalide ou manquant
-            die("Données manquantes ou invalides");
+            die('Données manquantes ou invalides');
         }
 
         // faire des regex avec pregmatch
@@ -39,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $setValidPasswor = true;
             }
         }
+        // si c'est valider alors on envoye en enregistrement
         if ($setValidPasswor === true) {
             $password = password_hash($password, PASSWORD_BCRYPT);
             $user = setUser($db, $first_name, $last_name, $email, $username, $password);
@@ -58,8 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
         $log = getUser($db, $username, $password);
         if ($log) {
+            $boolLogIn = true;
             $_SESSION['logged'] = $log;
             header('Location: /');
+            exit();
+        } else {
+            $boolLogIn = false;
+            $sentance = 'Mot de passe ou identifiant incorecte';
         }
     }
 }
@@ -89,38 +96,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     id="last_name"
                     name="last_name"
                     value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($last_name) : '' ?>"
-                    required 
-            </div>
-            <div>
-                <label for=" email">Email : </label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($email) : '' ?>"
-                    required />
-            </div>
-            <div>
-                <label for="username">Pseudo : </label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($username) : '' ?>"
-                    required />
-            </div>
-            <div>
-                <label for="password">Mot de passe : </label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    required />
-            </div>
-            <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) && $setValidPasswor != true) { ?>
-                <p><?= $message ?></p>
-            <?php } ?>
-            <button type="submit" name="signIn">S'inscrire</button>
+                    required
+                    </div>
+                <div>
+                    <label for=" email">Email : </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($email) : '' ?>"
+                        required />
+                </div>
+                <div>
+                    <label for="username">Pseudo : </label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($username) : '' ?>"
+                        required />
+                </div>
+                <div>
+                    <label for="password">Mot de passe : </label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required />
+                </div>
+                <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) && $setValidPasswor === false) { ?>
+                    <p><?= $message ?></p>
+                <?php } ?>
+                <button type="submit" name="signIn">S'inscrire</button>
         </form>
     </section>
 
@@ -148,6 +155,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     name="password"
                     required />
             </div>
+            <!-- c'est plus propre d'utiliser la variable car ca évite les bug de est-ce que le formulaire est envoyer ou non -->
+            <?php if (isset($sentance)) { ?>
+                <p><?= $sentance ?></p>
+            <?php } ?>
             <button type="submit" name="logIn">Connexion</button>
         </form>
     </section>
