@@ -12,15 +12,25 @@ function setUser($db, $first_name, $last_name, $email, $username, $password)
     $stmt->bindValue(':username', $username, PDO::PARAM_STR);
     $stmt->bindValue(':password', $password, PDO::PARAM_STR);
     $stmt->execute();
+    // verifier que le execute a bien été affecter avant de return true
     return true;
 }
-function getUser($db, $username, $password) {
-    $sql = "SELECT `first_name`, `last_name`
+function getUser($db, $username, $password)
+{
+    $sql = "SELECT *
     FROM `staff`
-    WHERE `username` = :username AND `password` = :password";
+    WHERE `username` = :username";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-    $stmt->bindValue(':password', $password, PDO::PARAM_STR);
     $stmt->execute();
-    return true;
+    $user = $stmt->fetch();
+    if (password_verify($password, $user['password']) === true) {
+        return array(
+            "lastname" => $user['last_name'],
+            "firstname" => $user['first_name'],
+            "username"=> $user['username']
+        );
+    } else {
+        return false;
+    }
 }

@@ -1,5 +1,4 @@
 <?php include_once __DIR__ . '/../partials/header.php'; ?>
-<!-- constante magique PHP qui contient le chemin absolu du dossier où se trouve le fichier PHP actuel -->
 
     <h2>Bienvenue sur Sakila</h2>
     <p>
@@ -12,5 +11,8 @@
         Le site te permet de consulter le catalogue de films disponibles à la location, de parcourir la liste des acteurs et leur filmographie, de localiser les magasins avec leurs informations de contact, d'accéder aux données financières par boutique, et d'explorer les films par catégorie.
         Le développement a suivi le principe DRY (Don't Repeat Yourself) : connexion centralisée, includes réutilisables, et requêtes testées avant intégration.
     </p>
-
+    <?php if (isset($_SESSION['logged'])){ ?>
+        <p>Bonjour <?= $_SESSION['logged']['username'] ?></p>
+    <?php } ?>
+<!-- mettre des mettre coocki pour les thème -->
 <?php include_once __DIR__ . '/../partials/footer.php'; ?>

@@ -1,7 +1,6 @@
 <?php include_once('../partials/header.php');
 include_once __DIR__ . '/../functions/user/user.php';
 $singIn = false;
-$logIn = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = db();
     if (isset($_POST['signIn'])) {
@@ -15,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
-
+        // mettre un filter validate
         if (!$first_name || !$last_name || !$email || !$username || !$password) {
             // champ invalide ou manquant
-            die("Données invalides");
+            die("Données manquantes");
         }
         // faire des regex avec pregmatch
         // crypte le mot de passe 
@@ -31,17 +30,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['logIn'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $password = password_hash($password, PASSWORD_BCRYPT);
         $log = getUser($db, $username, $password);
-        if ($log === true) {
-            $logIn = true;
+        if ($log) {
+            $_SESSION['logged']= $log;
+            header('Location: /');
         }
     }
 }
 
 ?>
-<p><span>Consigne : </span>faut créé un compt staff et ce connecter avec et savoir si on est connecter</p>
-<p>faut mettre l'identifiant de l'adress en dure pareil pour le store id</p>
+
+<p>faut faire en sorte que le mot de passe sois de 8caractère au minimum</p>
 <?php if ($singIn === true) { ?>
     <p>Vous êtes bien inscrit</p>
 <?php } ?>
@@ -93,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </section>
     <section class="log">
-        <?php if ($logIn === true) { ?>
+        <?php if (isset($_SESSION["logged"])) { ?>
             <p>Vous êtes bien connecter</p>
         <?php } ?>
         <h3>Ici vous pouvez vous connecter</h3>

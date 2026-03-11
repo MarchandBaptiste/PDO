@@ -1,6 +1,14 @@
-<?php include_once __DIR__ . '/../database/database.php';
+<?php
+include_once __DIR__ . '/../database/database.php';
+session_start();
 if (!defined('BASE_URL')) {
-    define('BASE_URL', '/');
+  define('BASE_URL', '/');
+}
+// pour la déconexion
+if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
+  session_destroy();
+  header('Location: /source/pages/home.php');
+  exit();
 }
 ?>
 
@@ -10,13 +18,10 @@ if (!defined('BASE_URL')) {
 <head>
   <!-- Définition du jeu de caractères -->
   <meta charset="UTF-8" />
-
   <!-- Adaptation à la taille de l’écran -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <!-- Titre affiché dans l’onglet du navigateur -->
   <title>Salika</title>
-
   <!-- Lien vers la feuille de style -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
   <meta name="description" content="Description du site" />
@@ -25,7 +30,7 @@ if (!defined('BASE_URL')) {
 <body>
   <!-- En-tête du site -->
   <header>
-    <h1>Sakila Database App</h1>
+    <h1>Sakila Database</h1>
     <nav>
       <ul>
         <li><a href="/">Accueil</a></li>
@@ -34,7 +39,7 @@ if (!defined('BASE_URL')) {
         <li><a href="/source/pages/magasinPlace.php">L'implantation des magasins</a></li>
         <li><a href="/source/pages/cateList.php">Liste de catégorie </a></li>
         <li><a href="/source/pages/financarieData.php">Consultation des données financières</a></li>
-        <li><a href="/source/pages/connexion.php">Connexion</a></li>
+        <li><a href="/source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>""><?= isset($_SESSION['logged']) ? 'Deconexion' : 'Connexion' ?></a></li>
       </ul>
     </nav>
   </header>

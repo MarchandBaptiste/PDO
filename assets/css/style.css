@@ -98,6 +98,11 @@ button {
   border: 0px;
 }
 
+.active {
+  color: #C8A84B;
+  border: 1px solid #C8A84B;
+}
+
 /* card */
 .card {
   border-radius: 5px;

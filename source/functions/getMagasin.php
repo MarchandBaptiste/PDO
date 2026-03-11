@@ -6,7 +6,8 @@ function getMagasin($db)
     staff.last_name, 
     staff.email,
     address.address, 
-    city.city 
+    address.postal_code,
+    city.city
     FROM `store` 
     JOIN `staff` 
     ON `staff`.`staff_id`=`store`.`manager_staff_id` 
