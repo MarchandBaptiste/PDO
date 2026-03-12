@@ -1,5 +1,6 @@
 <?php
-include_once __DIR__ . '/../database/database.php';
+// on met require car si on peut pa se connecter a la base de donnée on fait plus de php car sinon on va avoir plein d'erreur
+require_once __DIR__ . '/../database/database.php';
 session_start();
 if (!defined('BASE_URL')) {
   define('BASE_URL', '/');
