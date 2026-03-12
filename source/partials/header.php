@@ -1,10 +1,10 @@
 <?php
 // on met require car si on peut pa se connecter a la base de donnée on fait plus de php car sinon on va avoir plein d'erreur
-require_once __DIR__ . '/../database/database.php';
-session_start();
 if (!defined('BASE_URL')) {
   define('BASE_URL', '/');
 }
+require_once __DIR__ . '/../database/database.php';
+session_start();
 // pour la déconexion
 if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
   session_destroy();
@@ -32,7 +32,7 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
   <!-- Lien vers la feuille de style -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
   <!-- pour les icon -->
-   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
   <meta name="description" content="Description du site" />
 </head>
 
@@ -42,19 +42,19 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
     <nav>
       <ul>
         <li><a href="/">Accueil</a></li>
-        <li><a href="/source/pages/moviesList.php">Liste des films</a></li>
-        <li><a href="/source/pages/actorList.php">Liste des acteurs</a></li>
-        <li><a href="/source/pages/magasinPlace.php">L'implantation des magasins</a></li>
-        <li><a href="/source/pages/cateList.php">Liste de catégorie </a></li>
-        <li><a href="/source/pages/financarieData.php">Consultation des données financières</a></li>
-        <li><a href="/source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>""><?= isset($_SESSION['logged']) ? 'Deconexion' : 'Connexion' ?></a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/moviesList.php">Liste des films</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/actorList.php">Liste des acteurs</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/magasinPlace.php">L'implantation des magasins</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/cateList.php">Liste de catégorie </a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/financarieData.php">Consultation des données financières</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>""><?= isset($_SESSION['logged']) ? 'Deconexion' : 'Connexion' ?></a></li>
       </ul>
     </nav>
-    <form action="" method="post">
-      <label class="switch">
-        <input type="checkbox" name="color">
-        <span class="slider round"></span>
-      </form>
-    </label>
+    <form action="" method=" post">
+            <label class="switch">
+              <input type="checkbox" name="color">
+              <span class="slider round"></span>
+              </form>
+            </label>
   </header>
   <main>

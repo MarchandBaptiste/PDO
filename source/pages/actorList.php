@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php foreach ($actors as $actor) : ?>
         <div class="card">
             <p><?php echo htmlspecialchars($actor['first_name']) . ' ' . htmlspecialchars($actor['last_name']); ?></p>
-            <a href="./moviActorList.php?id=<?= $actor['actor_id'] ?>">Voir plus de films</a>
+            <a href="<?= BASE_URL ?>source/pages/moviActorList.php?id=<?= $actor['actor_id'] ?>">Voir plus de films</a>
         </div>
     <?php endforeach ?>
 </section>
