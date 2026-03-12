@@ -193,7 +193,9 @@ input:checked + .slider:before {
   gap: 2rem;
 }
 
-
+span {
+  color: #A63D2F;
+}
 
 /* footer */
 footer {

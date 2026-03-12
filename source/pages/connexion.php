@@ -5,6 +5,7 @@ $singIn = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $boolLogIn = false;
     $setValidPasswor = false;
+    $setValidUsername = false;
     $db = db();
     if (isset($_POST['signIn'])) {
         $first_name = $_POST['first_name'];
@@ -40,8 +41,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $setValidPasswor = true;
             }
         }
+        // validité du usename car il y'a une limite de taille
+        if ($setValidUsername === false) {
+            if (strlen($username) > 16) {
+                $message = 'Le surnom est trop long';
+            } else {
+                $setValidUsername = true;
+            }
+        }
         // si c'est valider alors on envoye en enregistrement
-        if ($setValidPasswor === true) {
+        if ($setValidPasswor === true && $setValidUsername === true) {
             $password = password_hash($password, PASSWORD_BCRYPT);
             $user = setUser($db, $first_name, $last_name, $email, $username, $password);
             if ($user === true) {
@@ -108,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         required />
                 </div>
                 <div>
-                    <label for="username">Pseudo : </label>
+                    <label for="username">Pseudo(16 charactères MAX) : </label>
                     <input
                         type="text"
                         id="username"
@@ -124,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         name="password"
                         required />
                 </div>
-                <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) && $setValidPasswor === false) { ?>
+                <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) && ($setValidPasswor === false || $setValidUsername === false)) { ?>
                     <p><?= $message ?></p>
                 <?php } ?>
                 <button type="submit" name="signIn">S'inscrire</button>
