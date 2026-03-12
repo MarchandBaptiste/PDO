@@ -31,13 +31,14 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
   <title>Salika</title>
   <!-- Lien vers la feuille de style -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
+  <!-- pour les icon -->
+   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
   <meta name="description" content="Description du site" />
 </head>
 
 <body class="<?= $_COOKIE['theme'] ?? $_POST['color'] ?? 'light' ?>">
   <!-- En-tête du site -->
   <header>
-    <h1>Sakila Database</h1>
     <nav>
       <ul>
         <li><a href="/">Accueil</a></li>

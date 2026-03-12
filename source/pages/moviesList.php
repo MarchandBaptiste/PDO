@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $movies = getMovies($db, $nbMovie);
 }
 ?>
-<h2>Liste des films :</h2>
+<h2>Liste des films</h2>
 <form action="" method="POST">
     <div>
         <label for="nbMovie">Nombre de films que vous souhaitez voir :</label>
@@ -29,13 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php foreach ($movies as $movie) : ?>
         <div class="card">
             <h3><?php echo htmlspecialchars($movie['title']) ?></h3>
-            <p>Description : <?= htmlspecialchars($movie['description']) ?></p>
-            <p>Date de sortie : <span><?= htmlspecialchars($movie['release_year']) ?></span></p>
-            <p>Durée : <?= htmlspecialchars($movie['length']) ?></p>
-            <p>Note : <?= htmlspecialchars($movie['rating']) ?></p>
+            <p><span>Description : </span><?= htmlspecialchars($movie['description']) ?></p>
+            <p><span>Date de sortie : </span><?= htmlspecialchars($movie['release_year']) ?> <i class="ri-calendar-2-line"></i></p>
+            <p><span>Durée : </span><?= htmlspecialchars($movie['length']) ?> <i class="ri-time-line"></i></p>
+            <p><span>Note : </span><?= htmlspecialchars($movie['rating']) ?> <i class="ri-star-line"></i></p>
         </div>
     <?php endforeach ?>
 </section>
 
 <?php include_once('../partials/footer.php'); ?>
-

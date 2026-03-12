@@ -6,7 +6,7 @@ $actors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nbActor = filter_input(INPUT_POST, 'nbActor', FILTER_SANITIZE_NUMBER_INT);
-    if (!in_array($nbActor,$nb_item)) {
+    if (!in_array($nbActor, $nb_item)) {
         $nbActor = 25;
     }
     $actors = getActors($db, $nbActor);
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h2>Liste des acteurs :</h2>
 <form action="" method="POST">
     <div>
-        <label for="nbActor">Nombre d'acteur que vous souhaitez voir :</label>
+        <label for="nbActor">Nombre d'acteur que vous souhaitez voir</label>
         <select name="nbActor" id="nbActor">
             <option value="">--Veuillez choisir une option--</option>
             <?php foreach ($nb_item as $item) : ?>
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p><?php echo htmlspecialchars($actor['first_name']) . ' ' . htmlspecialchars($actor['last_name']); ?></p>
             <a href="./moviActorList.php?id=<?= $actor['actor_id'] ?>">Voir plus de films</a>
         </div>
-        <?php endforeach ?>
-    </section>
+    <?php endforeach ?>
+</section>
 
 <?php include_once('../partials/footer.php'); ?>

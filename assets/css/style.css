@@ -29,6 +29,9 @@ a {
   color: #C8A84B;
 }
 header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   padding: 2rem;
   color: white;
   border-bottom: 2px solid #E8CC7A;
@@ -66,9 +69,10 @@ section {
 h1 {
   text-align: center;
   color: #C8A84B;
-  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 h2,h3{
+  text-align: center;
   color: #C8A84B;
 }
 
@@ -167,12 +171,15 @@ input:checked + .slider:before {
 
 /* card */
 .card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   border-radius: 5px;
   border: 1px solid #7A7068;
   width: 400px;
   height: auto;
   color: white;
-  padding: 1rem;
+  padding: 2rem;
   transition: transform 0.5s ease;
   transform: scale(0.8);
   background-color: #2C2620;

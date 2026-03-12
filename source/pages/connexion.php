@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // on néttoye les données
         $first_name = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS);
         $last_name = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
         // on filter validate les données
@@ -28,20 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $first_name) // que des lettres
         );
         $last_name_valid = (
-            !empty(trim($first_name)) &&           // pas vide
-            strlen($first_name) >= 2 &&            // minimum 2 caractères
-            strlen($first_name) <= 50 &&           // maximum 50 caractères
-            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $first_name) // que des lettres
+            !empty(trim($last_name)) &&           // pas vide
+            strlen($last_name) >= 2 &&            // minimum 2 caractères
+            strlen($last_name) <= 50 &&           // maximum 50 caractères
+            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $last_name) // que des lettres
         );
         $email_valid = (filter_var($email, FILTER_VALIDATE_EMAIL));
         $username_valid = (
-            !empty(trim($first_name)) &&           // pas vide
-            strlen($first_name) >= 2 &&            // minimum 2 caractères
-            strlen($first_name) <= 16 &&           // maximum 50 caractères
-            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $first_name) // que des lettres
+            !empty(trim($username)) &&           // pas vide
+            strlen($username) >= 2 &&            // minimum 2 caractères
+            strlen($username) <= 16 &&           // maximum 16 caractères
+            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $username) // que des lettres
         );
 
-        if (!$first_name_valid || !$last_name_valid || !$email_valid || !$username || !$password) {
+        if (!$first_name_valid || !$last_name_valid || !$email_valid || !$username_valid || !$password) {
             // champ invalide ou manquant
             die('Données manquantes ou invalides');
         }
