@@ -51,22 +51,13 @@
 <span>Chose a faire : </span>
 <ul>
     <ol>
-        <p>faire un UX/UI correcte</p>
-    </ol>
-    <ol>
         <p>cooki pour mettre un mode sombre ou claire</p>
-    </ol>
-    <ol>
-        <p>mettre des icons</p>
     </ol>
     <ol>
         <p>moteur de recherche</p>
     </ol>
     <ol>
         <p>pagination en affichant 15 par 15</p>
-    </ol>
-    <ol>
-        <p>mettre des condition si ca renvoye rien dans les condition et donc faire un affichage qui renvoyer un message si false et affiche si true</p>
     </ol>
 </ul>
 

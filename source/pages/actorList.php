@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $actors = getActors($db, $nbActor);
 }
 ?>
-<h2>Liste des acteurs :</h2>
+<h2>Liste des acteurs</h2>
 <form action="" method="POST">
     <div>
         <label for="nbActor">Nombre d'acteur que vous souhaitez voir</label>
@@ -26,13 +26,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit">Envoyer</button>
 </form>
 
-<section>
-    <?php foreach ($actors as $actor) : ?>
-        <div class="card">
-            <p><?php echo htmlspecialchars($actor['first_name']) . ' ' . htmlspecialchars($actor['last_name']); ?></p>
-            <a href="<?= BASE_URL ?>source/pages/moviActorList.php?id=<?= $actor['actor_id'] ?>">Voir plus de films</a>
-        </div>
-    <?php endforeach ?>
+<section>    
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Filmographie</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($actors as $actor) : ?>
+                <tr>
+                    <th scope="row"><?= htmlspecialchars($actor['last_name']) ?></th>
+                    <td><?= htmlspecialchars($actor['first_name']) ?></td>
+                    <td><a href="<?= BASE_URL ?>source/pages/moviActorList.php?id=<?= $actor['actor_id'] ?>" class="btn">Voir plus de films</a></td>
+                </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
 </section>
 
 <?php include_once('../partials/footer.php'); ?>

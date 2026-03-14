@@ -1,54 +1,48 @@
 <?php include_once('../partials/header.php');
 include_once __DIR__ . '/../functions/user/user.php';
-// pour créé un compte
+
+// Initialisation des variables AVANT tout traitement
 $singIn = false;
+$sentance = '';
+$message = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $boolLogIn = false;
-    $setValidPasswor = false;
-    $setValidUsername = false;
     $db = db();
+
     if (isset($_POST['signIn'])) {
-        // on récupaire les données du formulaire
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
-        $email = $_POST['email'];
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        // on néttoye les données
+        // on récupère les données du formulaire et on nettoie
         $first_name = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS);
-        $last_name = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
-        $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
-        // on filter validate les données
+        $last_name   = filter_input(INPUT_POST, 'last_name',  FILTER_SANITIZE_SPECIAL_CHARS);
+        $email       = filter_input(INPUT_POST, 'email',      FILTER_SANITIZE_EMAIL);
+        $username    = filter_input(INPUT_POST, 'username',   FILTER_SANITIZE_SPECIAL_CHARS);
+        $password    = filter_input(INPUT_POST, 'password',   FILTER_DEFAULT);
+
+        // validation des champs
         $first_name_valid = (
-            !empty(trim($first_name)) &&           // pas vide
-            strlen($first_name) >= 2 &&            // minimum 2 caractères
-            strlen($first_name) <= 50 &&           // maximum 50 caractères
-            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $first_name) // que des lettres
+            !empty(trim($first_name)) &&
+            strlen($first_name) >= 2 &&
+            strlen($first_name) <= 50 &&
+            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $first_name)
         );
         $last_name_valid = (
-            !empty(trim($last_name)) &&           // pas vide
-            strlen($last_name) >= 2 &&            // minimum 2 caractères
-            strlen($last_name) <= 50 &&           // maximum 50 caractères
-            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $last_name) // que des lettres
+            !empty(trim($last_name)) &&
+            strlen($last_name) >= 2 &&
+            strlen($last_name) <= 50 &&
+            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $last_name)
         );
-        $email_valid = (filter_var($email, FILTER_VALIDATE_EMAIL));
+        $email_valid    = (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
         $username_valid = (
-            !empty(trim($username)) &&           // pas vide
-            strlen($username) >= 2 &&            // minimum 2 caractères
-            strlen($username) <= 16 &&           // maximum 16 caractères
-            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $username) // que des lettres
+            !empty(trim($username)) &&
+            strlen($username) >= 2 &&
+            strlen($username) <= 16 &&
+            preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $username)
         );
 
         if (!$first_name_valid || !$last_name_valid || !$email_valid || !$username_valid || !$password) {
-            // champ invalide ou manquant
-            die('Données manquantes ou invalides');
-        }
-
-        // vérification de la solidité du mot de passe 
-        if ($setValidPasswor === false) {
-
+            $sentance = 'Données manquantes ou invalides';
+            $singIn = false;
+        } else {
+            // vérification de la solidité du mot de passe
             if (strlen($password) < 8) {
                 $message = 'Le mot de passe est trop court, il doit comporter au moins 8 caractères';
             } elseif (!preg_match('/[A-Z]/', $password)) {
@@ -58,44 +52,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } elseif (!preg_match('/[1-9]/', $password)) {
                 $message = 'Le mot de passe doit comporter au moins un chiffre';
             } else {
-                $setValidPasswor = true;
-            }
-        }
-        // validité du usename car il y'a une limite de taille
-        if ($setValidUsername === false) {
-            if (strlen($username) > 16) {
-                $message = 'Le surnom est trop long';
-            } else {
-                $setValidUsername = true;
-            }
-        }
-        // si c'est valider alors on envoye en enregistrement
-        if ($setValidPasswor === true && $setValidUsername === true) {
-            $password = password_hash($password, PASSWORD_BCRYPT);
-            $user = setUser($db, $first_name, $last_name, $email, $username, $password);
-            if ($user === true) {
-                $singIn = true;
-                $sentance = 'Vous êtes inscrit';
-            } else {
-                $singIn = false;
-                $sentance = 'L\'inscription a échouer';
+                // mot de passe valide → insertion
+                $password = password_hash($password, PASSWORD_BCRYPT);
+                $user = setUser($db, $first_name, $last_name, $email, $username, $password);
+                if ($user === true) {
+                    $singIn   = true;
+                    $sentance = 'Vous êtes inscrit';
+                } else {
+                    $singIn   = false;
+                    $sentance = "L'inscription a échoué";
+                }
             }
         }
     }
 
-    // pour se connecter 
+    // connexion
     if (isset($_POST['logIn'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
         $log = getUser($db, $username, $password);
         if ($log) {
-            $boolLogIn = true;
             $_SESSION['logged'] = $log;
             header('Location: /');
             exit();
         } else {
-            $boolLogIn = false;
-            $sentance = 'Mot de passe ou identifiant incorecte';
+            $sentance = 'Mot de passe ou identifiant incorrect';
         }
     }
 }
@@ -104,10 +85,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="divLog">
     <!-- inscription -->
     <section class="log">
-        <?php if ($singIn === true) { ?>
-            <p><?= $sentance ?></p>
+        <?php if (isset($_POST['signIn'])) { ?>
+            <?php if ($singIn === true) { ?>
+                <p class="valid"><?= $sentance ?></p>
+            <?php } elseif (!empty($sentance)) { ?>
+                <p class="error"><?= $sentance ?></p>
+            <?php } ?>
         <?php } ?>
-        <h3>Ici vous pouvez vous Inscrire</h3>
+        <h3>Inscription</h3>
         <form action="" method="POST">
             <div>
                 <label for="first_name">Prénom : </label>
@@ -115,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="first_name"
                     name="first_name"
-                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($first_name) : '' ?>"
+                    value="<?= isset($_POST['signIn']) ? htmlspecialchars($first_name ?? '') : '' ?>"
                     required />
             </div>
             <div>
@@ -124,56 +109,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="last_name"
                     name="last_name"
-                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($last_name) : '' ?>"
-                    required
-                    </div>
-                <div>
-                    <label for=" email">Email : </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($email) : '' ?>"
-                        required />
-                </div>
-                <div>
-                    <label for="username">Pseudo(16 charactères MAX) : </label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) ? htmlspecialchars($username) : '' ?>"
-                        required />
-                </div>
-                <div>
-                    <label for="password">Mot de passe : </label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        required />
-                </div>
-                <?php if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signIn']) && ($setValidPasswor === false || $setValidUsername === false)) { ?>
-                    <p><?= $message ?></p>
-                <?php } ?>
-                <button type="submit" name="signIn">S'inscrire</button>
-        </form>
-    </section>
-
-    <!-- connexion -->
-    <section class="log">
-        <?php if (isset($_SESSION["logged"])) { ?>
-            <p>Vous êtes bien connecter</p>
-        <?php } ?>
-        <h3>Ici vous pouvez vous connecter</h3>
-        <form action="" method="POST">
+                    value="<?= isset($_POST['signIn']) ? htmlspecialchars($last_name ?? '') : '' ?>"
+                    required>
+            </div>
             <div>
-                <label for="username">Pseudo : </label>
+                <label for="email">Email : </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="<?= isset($_POST['signIn']) ? htmlspecialchars($email ?? '') : '' ?>"
+                    required />
+            </div>
+            <div>
+                <label for="username">Pseudo (16 caractères MAX) : </label>
                 <input
                     type="text"
                     id="username"
                     name="username"
-                    value="<?= $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logIn']) ? htmlspecialchars($username) : '' ?>"
+                    value="<?= isset($_POST['signIn']) ? htmlspecialchars($username ?? '') : '' ?>"
                     required />
             </div>
             <div>
@@ -184,9 +138,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     name="password"
                     required />
             </div>
-            <!-- c'est plus propre d'utiliser la variable car ca évite les bug de est-ce que le formulaire est envoyer ou non -->
-            <?php if (isset($sentance)) { ?>
-                <p><?= $sentance ?></p>
+            <?php if (isset($_POST['signIn']) && !empty($message)) { ?>
+                <p class="error"><?= $message ?></p>
+            <?php } ?>
+            <button type="submit" name="signIn">S'inscrire</button>
+        </form>
+    </section>
+
+    <!-- connexion -->
+    <section class="log">
+        <?php if (isset($_SESSION['logged'])) { ?>
+            <p class="valid">Vous êtes bien connecté</p>
+        <?php } ?>
+        <h3>Connexion</h3>
+        <form action="" method="POST">
+            <div>
+                <label for="username">Pseudo : </label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value="<?= isset($_POST['logIn']) ? htmlspecialchars($username ?? '') : '' ?>"
+                    required />
+            </div>
+            <div>
+                <label for="password">Mot de passe : </label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required />
+            </div>
+            <?php if (isset($_POST['logIn']) && !empty($sentance)) { ?>
+                <p class="error"><?= $sentance ?></p>
             <?php } ?>
             <button type="submit" name="logIn">Connexion</button>
         </form>
