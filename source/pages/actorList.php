@@ -1,32 +1,18 @@
 <?php include_once('../partials/header.php');
 include_once __DIR__ . '/../functions/getActors.php';
 $db = db();
-$nb_item = [25, 50, 100, 200, 500, 1000];
-$actors = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nbActor = filter_input(INPUT_POST, 'nbActor', FILTER_SANITIZE_NUMBER_INT);
-    if (!in_array($nbActor, $nb_item)) {
-        $nbActor = 25;
-    }
-    $actors = getActors($db, $nbActor);
-}
+$page = filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT);
+$page = ($page && $page > 0) ? $page : 1;
+$offset = ($page - 1) * 15;
+
+$total = countActors($db);
+$totalPages = ceil($total / 15);
+
+$actors = getActors($db, $offset);
 ?>
 <h2>Liste des acteurs</h2>
-<form action="" method="POST">
-    <div>
-        <label for="nbActor">Nombre d'acteur que vous souhaitez voir</label>
-        <select name="nbActor" id="nbActor">
-            <option value="">--Veuillez choisir une option--</option>
-            <?php foreach ($nb_item as $item) : ?>
-                <option value="<?= $item ?>"><?= $item ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-    <button type="submit">Envoyer</button>
-</form>
-
-<section>    
+<section>
     <table>
         <thead>
             <tr>
@@ -45,6 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endforeach ?>
         </tbody>
     </table>
+    <nav class="pagination">
+        <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+            <a href="?page=<?= $i ?>" <?= $i === $page ? 'class="active"' : '' ?>>
+                <?= $i ?>
+            </a>
+        <?php endfor ?>
+    </nav>
 </section>
 
 <?php include_once('../partials/footer.php'); ?>

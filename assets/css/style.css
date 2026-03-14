@@ -369,7 +369,7 @@ table tr:hover {
   align-items: flex-start;
   padding: 5%;
 }
-.card-conteneur{
+.card-conteneur {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -489,6 +489,19 @@ form div {
 
 span {
   color: var(--blue);
+}
+/* pagination */
+.pagination {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.pagination a.active {
+  background-color: #7b809923;
 }
 
 /* footer */

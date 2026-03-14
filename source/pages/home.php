@@ -48,18 +48,5 @@
     </a>
 </section>
 
-<span>Chose a faire : </span>
-<ul>
-    <ol>
-        <p>cooki pour mettre un mode sombre ou claire</p>
-    </ol>
-    <ol>
-        <p>moteur de recherche</p>
-    </ol>
-    <ol>
-        <p>pagination en affichant 15 par 15</p>
-    </ol>
-</ul>
-
 <!-- mettre des mettre coocki pour les thème -->
 <?php include_once __DIR__ . '/../partials/footer.php'; ?>
