@@ -45,7 +45,7 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
         <li><a href="<?= BASE_URL ?>source/pages/moviesList.php">Liste des films</a></li>
         <li><a href="<?= BASE_URL ?>source/pages/actorList.php">Liste des acteurs</a></li>
         <li><a href="<?= BASE_URL ?>source/pages/magasinPlace.php">L'implantation des magasins</a></li>
-        <li><a href="<?= BASE_URL ?>source/pages/cateList.php">Liste de catégorie </a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/cateList.php">Liste de catégorie</a></li>
         <li><a href="<?= BASE_URL ?>source/pages/financarieData.php">Consultation des données financières</a></li>
         <li><a href="<?= BASE_URL ?>source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>""><?= isset($_SESSION['logged']) ? 'Deconexion' : 'Connexion' ?></a></li>
       </ul>

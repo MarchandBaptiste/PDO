@@ -1,19 +1,74 @@
 <?php include_once __DIR__ . '/../partials/header.php'; ?>
+<section class="hero">
 
-    <h2>Bienvenue sur Sakila</h2>
-    <p>
-        Cette application a été développée dans le cadre du TD PDO 01. </p>
-    <p>
-        Elle exploite la base de données Sakila, une base de démonstration MySQL représentant un système de location de films.
-    </p>
-    <p>
-        L'objectif de ce TD était d'apprendre à connecter une application PHP à une base de données via l'extension PDO, et de manipuler les données à l'aide de requêtes SQL variées : sélections simples, jointures entre tables, fonctions d'agrégation, et pagination.
-        Le site te permet de consulter le catalogue de films disponibles à la location, de parcourir la liste des acteurs et leur filmographie, de localiser les magasins avec leurs informations de contact, d'accéder aux données financières par boutique, et d'explorer les films par catégorie.
-        Le développement a suivi le principe DRY (Don't Repeat Yourself) : connexion centralisée, includes réutilisables, et requêtes testées avant intégration.
-    </p>
-    <p><span>Chose a faire : </span>cooki pour mettre un mode sombre ou claire, faire un UX/UI correcte pour l'ui mettre des icons, moteur de recherche, faire pour les film la pagination en affichant 15 par 15 les films</p>
-    <?php if (isset($_SESSION['logged'])){ ?>
-        <p>Bonjour <?= $_SESSION['logged']['username'] ?></p>
+    <?php if (isset($_SESSION['logged'])) { ?>
+        <h2>Bienvenue sur Sakila <?= $_SESSION['logged']['username'] ?></h2>
+    <?php } else { ?>
+        <h2>Bienvenue sur Sakila </h2>
     <?php } ?>
+    <p>
+        Explorez le catalogue de films, la liste des acteurs, les données financières et l'implantation de nos magasins.
+    </p>
+</section>
+<section class="card-nav">
+    <a href="<?= BASE_URL ?>source/pages/moviesList.php"  style="--couleur: #6c8eff">
+        <div>
+            <p>🎬</p>
+            <h4>Liste des films</h4>
+            <p>Catalogue complet avec titre, durée et note</p>
+        </div>
+    </a>
+    <a href="<?= BASE_URL ?>source/pages/actorList.php" style="--couleur: #a78bfa">
+        <div>
+            <p>🎭</p>
+            <h4>Liste des acteurs</h4>
+            <p>Tous nos acteurs</p>
+        </div>
+    </a>
+    <a href="<?= BASE_URL ?>source/pages/magasinPlace.php" style="--couleur: #34d399">
+        <div>
+            <p>🛒</p>
+            <h4>Nos magasins</h4>
+            <p>Adresses, managers et contacts</p>
+        </div>
+    </a>
+    <a href="<?= BASE_URL ?>source/pages/cateList.php" style="--couleur: #f59e0b">
+        <div>
+            <p>💰</p>
+            <h4>Données financières</h4>
+            <p>Chiffre d'affaires par boutique</p>
+        </div>
+    </a>
+    <a href="<?= BASE_URL ?>source/pages/financarieData.php" style="--couleur: #f87171">
+        <div>
+            <p>🏷️</p>
+            <h4>Catégorie</h4>
+            <p>16 genres, nombre de films</p>
+        </div>
+    </a>
+</section>
+
+<span>Chose a faire : </span>
+<ul>
+    <ol>
+        <p>faire un UX/UI correcte</p>
+    </ol>
+    <ol>
+        <p>cooki pour mettre un mode sombre ou claire</p>
+    </ol>
+    <ol>
+        <p>mettre des icons</p>
+    </ol>
+    <ol>
+        <p>moteur de recherche</p>
+    </ol>
+    <ol>
+        <p>pagination en affichant 15 par 15</p>
+    </ol>
+    <ol>
+        <p>mettre des condition si ca renvoye rien dans les condition et donc faire un affichage qui renvoyer un message si false et affiche si true</p>
+    </ol>
+</ul>
+
 <!-- mettre des mettre coocki pour les thème -->
 <?php include_once __DIR__ . '/../partials/footer.php'; ?>
