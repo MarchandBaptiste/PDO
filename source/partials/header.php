@@ -31,30 +31,35 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
   <title>Salika</title>
   <!-- Lien vers la feuille de style -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
-  <!-- pour les icon -->
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
-  <meta name="description" content="Description du site" />
+  <!-- Lien vers le scipt -->
+   <script src="<?= BASE_URL ?>assets/js/script.js"></script>
+  <meta name="description" content="TD sur la PDO avec Sakila" />
 </head>
 
 <body class="<?= $_COOKIE['theme'] ?? $_POST['color'] ?? 'light' ?>">
   <!-- En-tête du site -->
-  <header>
-    <nav>
-      <ul>
-        <li><a href="/">Accueil</a></li>
-        <li><a href="<?= BASE_URL ?>source/pages/moviesList.php">Films</a></li>
-        <li><a href="<?= BASE_URL ?>source/pages/actorList.php">Acteurs</a></li>
-        <li><a href="<?= BASE_URL ?>source/pages/magasinPlace.php">Magasins</a></li>
-        <li><a href="<?= BASE_URL ?>source/pages/cateList.php">Catégorie</a></li>
-        <li><a href="<?= BASE_URL ?>source/pages/financarieData.php">Données financières</a></li>
-        <li><a href="<?= BASE_URL ?>source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>""><?= isset($_SESSION['logged']) ? 'Deconexion' : 'Connexion' ?></a></li>
-      </ul>
-    </nav>
-    <form action="" method=" post">
-            <label class="switch">
-              <input type="checkbox" name="color">
-              <span class="slider round"></span>
-              </form>
-            </label>
-  </header>
+   <header>
+  <img id="hamburger" src="<?= BASE_URL ?>assets/images/icon-hamburger.svg" alt="menu" />
+  <nav id="nav">
+    <ul>
+      <li><a href="/">Accueil</a></li>
+      <li><a href="<?= BASE_URL ?>source/pages/moviesList.php">Films</a></li>
+      <li><a href="<?= BASE_URL ?>source/pages/actorList.php">Acteurs</a></li>
+      <li><a href="<?= BASE_URL ?>source/pages/magasinPlace.php">Magasins</a></li>
+      <li><a href="<?= BASE_URL ?>source/pages/cateList.php">Catégorie</a></li>
+      <li><a href="<?= BASE_URL ?>source/pages/financarieData.php">Données financières</a></li>
+      <li>
+        <a href="<?= BASE_URL ?>source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>">
+          <?= isset($_SESSION['logged']) ? 'Déconnexion' : 'Connexion' ?>
+        </a>
+      </li>
+      <form action="" method=" post">
+              <label class="switch">
+                <input type="checkbox" name="color">
+                <span class="slider round"></span>
+                </form>
+              </label>
+    </ul>
+  </nav>
+</header>
   <main>
