@@ -11,12 +11,6 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
   header('Location: /source/pages/home.php');
   exit();
 }
-// if (isset($_POST['reset'])) {
-
-//         setcookie("theme", '', time() -1, "/");
-//     } else {
-//         setcookie("theme", htmlspecialchars($_POST['color']), time() + (24 * 3600), "/");
-//     }
 ?>
 
 <!DOCTYPE html>
@@ -32,34 +26,29 @@ if (isset($_SESSION['logged']) && isset($_GET['logout'])) {
   <!-- Lien vers la feuille de style -->
   <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css">
   <!-- Lien vers le scipt -->
-   <script src="<?= BASE_URL ?>assets/js/script.js"></script>
+  <script src="<?= BASE_URL ?>assets/js/script.js"></script>
   <meta name="description" content="TD sur la PDO avec Sakila" />
 </head>
 
 <body class="<?= $_COOKIE['theme'] ?? $_POST['color'] ?? 'light' ?>">
   <!-- En-tête du site -->
-   <header>
-  <img id="hamburger" src="<?= BASE_URL ?>assets/images/icon-hamburger.svg" alt="menu" />
-  <nav id="nav">
-    <ul>
-      <li><a href="/">Accueil</a></li>
-      <li><a href="<?= BASE_URL ?>source/pages/moviesList.php">Films</a></li>
-      <li><a href="<?= BASE_URL ?>source/pages/actorList.php">Acteurs</a></li>
-      <li><a href="<?= BASE_URL ?>source/pages/magasinPlace.php">Magasins</a></li>
-      <li><a href="<?= BASE_URL ?>source/pages/cateList.php">Catégorie</a></li>
-      <li><a href="<?= BASE_URL ?>source/pages/financarieData.php">Données financières</a></li>
-      <li>
-        <a href="<?= BASE_URL ?>source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>">
-          <?= isset($_SESSION['logged']) ? 'Déconnexion' : 'Connexion' ?>
-        </a>
-      </li>
-      <form action="" method=" post">
-              <label class="switch">
-                <input type="checkbox" name="color">
-                <span class="slider round"></span>
-                </form>
-              </label>
-    </ul>
-  </nav>
-</header>
+  <header>
+    <img id="hamburger" src="<?= BASE_URL ?>assets/images/icon-hamburger.svg" alt="menu" />
+    <nav id="nav">
+      <ul>
+        <li><a href="/">Accueil</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/moviesList.php">Films</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/actorList.php">Acteurs</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/magasinPlace.php">Magasins</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/cateList.php">Catégorie</a></li>
+        <li><a href="<?= BASE_URL ?>source/pages/financarieData.php">Données financières</a></li>
+        <li>
+          <a href="<?= BASE_URL ?>source/pages/connexion.php?logout" class="<?= isset($_SESSION['logged']) ? 'active' : '' ?>">
+            <?= isset($_SESSION['logged']) ? 'Déconnexion' : 'Connexion' ?>
+          </a>
+        </li>
+        </label>
+      </ul>
+    </nav>
+  </header>
   <main>

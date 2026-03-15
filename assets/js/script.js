@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     nav.classList.toggle('active');
 
     hamburger.src = nav.classList.contains('active')
-      ? './assets/images/icon-close.svg'
-      : './assets/images/icon-hamburger.svg';
+      ? '/assets/images/icon-close.svg'
+      : '/assets/images/icon-hamburger.svg';
   });
 });
