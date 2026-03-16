@@ -12,10 +12,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['signIn'])) {
         // on récupère les données du formulaire et on nettoie
         $first_name = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_SPECIAL_CHARS);
-        $last_name   = filter_input(INPUT_POST, 'last_name',  FILTER_SANITIZE_SPECIAL_CHARS);
-        $email       = filter_input(INPUT_POST, 'email',      FILTER_SANITIZE_EMAIL);
-        $username    = filter_input(INPUT_POST, 'username',   FILTER_SANITIZE_SPECIAL_CHARS);
-        $password    = filter_input(INPUT_POST, 'password',   FILTER_DEFAULT);
+        $last_name = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
+        $password = filter_input(INPUT_POST, 'password', FILTER_DEFAULT);
 
         // validation des champs
         $first_name_valid = (
@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             strlen($last_name) <= 50 &&
             preg_match('/^[a-zA-ZÀ-ÿ\s\-]+$/', $last_name)
         );
+        // (bool) force a renvoyer un boolean
         $email_valid    = (bool) filter_var($email, FILTER_VALIDATE_EMAIL);
         $username_valid = (
             !empty(trim($username)) &&
@@ -42,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sentance = 'Données manquantes ou invalides';
             $singIn = false;
         } else {
-            // vérification de la solidité du mot de passe
+            // vérification de la solidité du mot de passe on pourrait faire un gros regex mais pour les messages c'est pas pratique
             if (strlen($password) < 8) {
                 $message = 'Le mot de passe est trop court, il doit comporter au moins 8 caractères';
             } elseif (!preg_match('/[A-Z]/', $password)) {
@@ -94,20 +95,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php } ?>
         <h3>Inscription</h3>
         <form action="" method="POST">
-            <div>
-                <label for="first_name">Prénom : </label>
+            <div class="form">
+                <div>
+                    <label for="first_name">Prénom : </label>
                 <input
                     type="text"
                     id="first_name"
                     name="first_name"
                     value="<?= isset($_POST['signIn']) ? htmlspecialchars($first_name ?? '') : '' ?>"
                     required />
-            </div>
+                </div>
             <div>
                 <label for="last_name">Nom : </label>
                 <input
-                    type="text"
-                    id="last_name"
+                type="text"
+                id="last_name"
                     name="last_name"
                     value="<?= isset($_POST['signIn']) ? htmlspecialchars($last_name ?? '') : '' ?>"
                     required>
@@ -115,33 +117,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label for="email">Email : </label>
                 <input
-                    type="email"
+                type="email"
                     id="email"
                     name="email"
                     value="<?= isset($_POST['signIn']) ? htmlspecialchars($email ?? '') : '' ?>"
                     required />
-            </div>
-            <div>
-                <label for="username">Pseudo (16 caractères MAX) : </label>
-                <input
+                </div>
+                <div>
+                    <label for="username">Pseudo (16 caractères MAX) : </label>
+                    <input
                     type="text"
                     id="username"
                     name="username"
                     value="<?= isset($_POST['signIn']) ? htmlspecialchars($username ?? '') : '' ?>"
                     required />
-            </div>
-            <div>
-                <label for="password">Mot de passe : </label>
-                <input
+                </div>
+                <div>
+                    <label for="password">Mot de passe : </label>
+                    <input
                     type="password"
                     id="password"
                     name="password"
                     required />
-            </div>
-            <?php if (isset($_POST['signIn']) && !empty($message)) { ?>
+                </div>
+                <?php if (isset($_POST['signIn']) && !empty($message)) { ?>
                 <p class="error"><?= $message ?></p>
-            <?php } ?>
-            <button type="submit" name="signIn">S'inscrire</button>
+                <?php } ?>
+                <button type="submit" name="signIn">S'inscrire</button>
+            </div>
         </form>
     </section>
 
@@ -152,9 +155,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php } ?>
         <h3>Connexion</h3>
         <form action="" method="POST">
-            <div>
-                <label for="username">Pseudo : </label>
-                <input
+            <div class="form">
+                <div>
+                    <label for="username">Pseudo : </label>
+                    <input
                     type="text"
                     id="username"
                     name="username"
@@ -164,15 +168,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div>
                 <label for="password">Mot de passe : </label>
                 <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    required />
+                type="password"
+                id="password"
+                name="password"
+                required />
             </div>
             <?php if (isset($_POST['logIn']) && !empty($sentance)) { ?>
-                <p class="error"><?= $sentance ?></p>
+            <p class="error"><?= $sentance ?></p>
             <?php } ?>
             <button type="submit" name="logIn">Connexion</button>
+        </div>
         </form>
     </section>
 </div>
