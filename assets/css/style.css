@@ -154,6 +154,9 @@ textarea {
 label {
   color: var(--white);
 }
+input:hover{
+  border: 1px solid var(--blue);
+}
 
 button {
   padding: 8px 12px;
