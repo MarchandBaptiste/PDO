@@ -102,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="first_name"
                     name="first_name"
+                    placeholder="Entrez votre prénom"
                     value="<?= isset($_POST['signIn']) ? htmlspecialchars($first_name ?? '') : '' ?>"
                     required />
                 </div>
@@ -111,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 type="text"
                 id="last_name"
                     name="last_name"
+                    placeholder="Entrez votre nom"
                     value="<?= isset($_POST['signIn']) ? htmlspecialchars($last_name ?? '') : '' ?>"
                     required>
             </div>
@@ -120,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 type="email"
                     id="email"
                     name="email"
+                    placeholder="Entrez votre email"
                     value="<?= isset($_POST['signIn']) ? htmlspecialchars($email ?? '') : '' ?>"
                     required />
                 </div>
@@ -129,6 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="username"
                     name="username"
+                    placeholder="Entrez un pseudo"
                     value="<?= isset($_POST['signIn']) ? htmlspecialchars($username ?? '') : '' ?>"
                     required />
                 </div>
@@ -138,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="password"
                     id="password"
                     name="password"
+                    placeholder="Entrez un mot de passe"
                     required />
                 </div>
                 <?php if (isset($_POST['signIn']) && !empty($message)) { ?>
@@ -162,6 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     type="text"
                     id="username"
                     name="username"
+                    placeholder="Entrez votre pseudo"
                     value="<?= isset($_POST['logIn']) ? htmlspecialchars($username ?? '') : '' ?>"
                     required />
             </div>
@@ -171,6 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 type="password"
                 id="password"
                 name="password"
+                placeholder="Entrez votre mot de passe"
                 required />
             </div>
             <?php if (isset($_POST['logIn']) && !empty($sentance)) { ?>
